@@ -30,6 +30,7 @@ exports.findById = function(req, res) {
 	});
 };
 
+
 //POST - Insert a new TVShow in the DB
 exports.addUser = function(req, res) {
 	console.log('POST new user, name: ' + req.body.username);

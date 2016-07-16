@@ -22,6 +22,26 @@ exports.findById = function(req, res) {
 	});
 };
 
+exports.findAllThoughtsFromUsername = function(req, res) {
+    thoughtModel.find({
+      authorname: req.params.userid
+  }, function(err, thoughts) {
+
+      if (err) throw err;
+
+      if (!thoughts) {
+        res.json({ success: false, message: 'no thoughts for user' });
+    } else if (thoughts) {
+        console.log(thoughts);
+          // return the information including token as JSON
+          res.jsonp(thoughts);
+
+
+      }
+
+    });
+};
+
 //POST - Insert a new TVShow in the DB
 exports.addThought = function(req, res) {
 	console.log('POST new thought, content: ' + req.body.content);

@@ -40,31 +40,70 @@ router.get('/', function(req, res) {
 app.use(router);*/
 app.use(express.static(__dirname + '/web'));
 
-// API routes
+// API routes ------------------------------------------------------
 var apiRoutes = express.Router();
 
 apiRoutes.route('/users')
   .get(userCtrl.findAllUsers)
   .post(userCtrl.addUser);
+apiRoutes.route('/thoughts/user/:userid')
+    .get(thoughtCtrl.findAllThoughtsFromUsername);
+
+apiRoutes.route('/auth')
+    .post(userCtrl.login);
+
+apiRoutes.route('/thoughts')
+  .get(thoughtCtrl.findAllThoughts);
+
+apiRoutes.route('/thoughts/:id')
+.get(thoughtCtrl.findById)
+
+// route middleware to verify a token
+apiRoutes.use(function(req, res, next) {
+
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, app.get('superSecret'), function(err, decoded) {
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;
+        next();
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+    });
+
+  }
+});
 
 apiRoutes.route('/users/:id')
   .get(userCtrl.findById)
   .put(userCtrl.updateActivity)
   .delete(userCtrl.deleteActivity);
 
-apiRoutes.route('/auth')
-    .post(userCtrl.login);
-
 apiRoutes.route('/thoughts')
-  .get(thoughtCtrl.findAllThoughts)
   .post(thoughtCtrl.addThought);
 
 apiRoutes.route('/thoughts/:id')
-  .get(thoughtCtrl.findById)
   .put(thoughtCtrl.updateActivity)
   .delete(thoughtCtrl.deleteActivity);
 
 app.use('/api', apiRoutes);
+// end of API routes -------------------------------------
 
 // Start server
 app.listen(3000, function() {
