@@ -2,6 +2,14 @@
 var mongoose = require('mongoose');
 var userModel  = mongoose.model('userModel');
 
+/* */
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+var express         = require("express");
+var app             = express();
+var config = require('../config'); // get our config file
+app.set('superSecret', config.secret); // secret variable
+/* */
+
 //GET - Return all tvshows in the DB
 exports.findAllUsers = function(req, res) {
 	userModel.find(function(err, users) {
@@ -29,9 +37,11 @@ exports.addUser = function(req, res) {
 
 	var user = new userModel({
 		username: req.body.username,
+		password: req.body.password,
 	    description:   req.body.description,
 	    icon:   req.body.icon,
-	    mail:   req.body.mail
+	    mail:   req.body.mail,
+		admin: req.body.admin
 	});
 
 	user.save(function(err, user) {
@@ -67,4 +77,43 @@ exports.deleteActivity = function(req, res) {
 		    console.log('DELETE /activities/' + req.params.id);
 		})
 	});
+};
+
+
+//POST - auth user
+exports.login = function(req, res) {
+	// find the user
+  userModel.findOne({
+    username: req.body.username
+  }, function(err, user) {
+
+    if (err) throw err;
+
+    if (!user) {
+      res.json({ success: false, message: 'Authentication failed. User not found.' });
+    } else if (user) {
+
+      // check if password matches
+      if (user.password != req.body.password) {
+        res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+      } else {
+
+        // if user is found and password is right
+        // create a token
+        var token = jwt.sign(user, app.get('superSecret'), {
+          //expiresInMinutes: 1440 // expires in 24 hours
+		  expiresIn: '10m'
+        });
+
+        // return the information including token as JSON
+        res.json({
+          success: true,
+          message: 'Enjoy your token!',
+          token: token
+        });
+      }
+
+    }
+
+  });
 };
