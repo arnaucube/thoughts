@@ -103,7 +103,7 @@ exports.login = function(req, res) {
         // create a token
         var token = jwt.sign(user, app.get('superSecret'), {
           //expiresInMinutes: 1440 // expires in 24 hours
-		  expiresIn: '10m'
+		  expiresIn: '60m'
         });
 
         // return the information including token as JSON
