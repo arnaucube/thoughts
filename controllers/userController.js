@@ -22,7 +22,7 @@ exports.findAllUsers = function(req, res) {
 
 //GET - Return a TVShow with specified ID
 exports.findById = function(req, res) {
-	ActivityModel.findById(req.params.id, function(err, user) {
+	userModel.findById(req.params.id, function(err, user) {
     if(err) return res.send(500, err.message);
 
     console.log('GET /users/' + req.params.id);
@@ -30,6 +30,25 @@ exports.findById = function(req, res) {
 	});
 };
 
+exports.findUserByUsername = function(req, res) {
+    userModel.find({
+      username: req.params.username
+  }, function(err, user) {
+
+      if (err) throw err;
+
+      if (!user) {
+        res.json({ success: false, message: 'no user found' });
+    } else if (user) {
+        console.log(user);
+          // return the information including token as JSON
+          res.jsonp(user);
+
+
+      }
+
+    });
+};
 
 //POST - Insert a new TVShow in the DB
 exports.addUser = function(req, res) {

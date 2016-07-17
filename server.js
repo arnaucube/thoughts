@@ -46,6 +46,10 @@ var apiRoutes = express.Router();
 apiRoutes.route('/users')
   .get(userCtrl.findAllUsers)
   .post(userCtrl.addUser);
+apiRoutes.route('/users/:id')
+    .get(userCtrl.findById);
+apiRoutes.route('/users/byusername/:username')
+    .get(userCtrl.findUserByUsername);
 apiRoutes.route('/thoughts/user/:userid')
     .get(thoughtCtrl.findAllThoughtsFromUsername);
 
@@ -91,7 +95,6 @@ apiRoutes.use(function(req, res, next) {
 });
 
 apiRoutes.route('/users/:id')
-  .get(userCtrl.findById)
   .put(userCtrl.updateActivity)
   .delete(userCtrl.deleteActivity);
 
