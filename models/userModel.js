@@ -17,7 +17,7 @@ var userSchema = new Schema({
     username: { type: String },
     password: { type: String },
     description:   { type: String },
-    icon:   { type: String },
+    avatar:   { type: String },
     mail:   { type: String },
     admin: { type: Boolean }
 })

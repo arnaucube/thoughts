@@ -9,32 +9,26 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Thoughts</title>
+      <title>Thoughts - new thought</title>
 
       <!-- ANGULAR -->
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     </head>
 
-    <body ng-controller="ThoughtsController as thoughtsList">
+    <body ng-controller="ThoughtsController">
 
         <div ng-include="'menu.htm'"></div>
 
         <div class="container">
-
-            <div>
-                <ul class="collection">
-                    <li class="collection-item avatar" ng-repeat="thought in thoughtsList.thoughts | orderBy: '-time'">
-                        <img ng-src="img/icons/animals/{{thought.avatar}}.png" class="circle">
-                        <a ng-href="user.html?={{thought.username}}" class="title">
-                            {{thought.username}}
-                        </a>
-                        <div class="chip">{{thought.time | date:'HH:mm'}}</div>
-                        <p>{{thought.content}}</p>
-                        <a href="#!" class="secondary-content"><i class="material-icons indigo-text text-lighten-2">grade</i></a>
-
-                    </li>
-                </ul>
+            <br>
+            <div class="badge indigo-text right">{{144 - newthought.length}}</div>
+            <div class="input-field col s6">
+                <textarea ng-model="newthought" id="textarea1" class="materialize-textarea"></textarea>
+            <label for="textarea1">New thought</label>
             </div>
+
+            <a href="index.html" class="waves-effect waves-light btn red lighten-2 ">Cancel</a>
+            <a ng-click="postThought()" class="waves-effect waves-light btn indigo lighten-2 right">Publish</a>
 
         </div>
 

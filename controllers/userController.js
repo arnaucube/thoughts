@@ -59,7 +59,7 @@ exports.addUser = function(req, res) {
 		username: req.body.username,
 		password: req.body.password,
 	    description:   req.body.description,
-	    icon:   req.body.icon,
+	    avatar:   req.body.avatar,
 	    mail:   req.body.mail,
 		admin: req.body.admin
 	});
@@ -124,12 +124,13 @@ exports.login = function(req, res) {
           //expiresInMinutes: 1440 // expires in 24 hours
 		  expiresIn: '60m'
         });
-
+console.log(user);
         // return the information including token as JSON
         res.json({
           success: true,
           message: 'Enjoy your token!',
-          token: token
+          token: token,
+		  avatar: user.avatar
         });
       }
 

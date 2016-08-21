@@ -54,7 +54,8 @@ exports.addThought = function(req, res) {
 	var thought = new thoughtModel({
 		time: req.body.time,
 	    content:   req.body.content,
-	    user_id:   req.body.user_id
+	    username:   req.body.username,
+		avatar: req.body.avatar
 	});
 
 	thought.save(function(err, thought) {

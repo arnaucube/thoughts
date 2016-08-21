@@ -5,4 +5,4 @@ MEAN fullstack
 
 backend: nodejs + express + mongodb
 
-frontend: javascript + angular + bootstrap
+frontend: angular + materializecss

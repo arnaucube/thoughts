@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 var thoughtSchema = new Schema({
     time: { type: String },
     content:   { type: String },
-    user_id: { type: String },
-    fav: { type: String } //array amb els users que posen fav
+    username: { type: String },
+    fav: { type: String }, //array amb els users que posen fav
+    avatar: { type: String }
 })
 module.exports = mongoose.model('thoughtModel', thoughtSchema);
