@@ -10,46 +10,10 @@ exports.findAllThoughts = function(req, res) {
 	thoughtModel.find(function(err, thoughts) {
 	    if(err) res.send(500, err.message);
 
-		console.log(thoughts.length);
-		thoughts=JSON.parse(JSON.stringify(thoughts));
-
-		thoughts.forEach(function(thought, index, array){
-
-array=JSON.parse(JSON.stringify(array));
-
-			userModel.find({
-		      username: thought.authorname
-			  }, function(err, user) {
-
-			      if (err) throw err;
-
-			      if (!user) {
-
-			    } else if (user) {
-
-						/*console.log(thought);
-						console.log(user);*/
-			        array[index].usericon=user[0].icon;
-
-				console.log("icon: " + array[index].usericon);
-					//thought.set('icon', user.icon);
-					//console.log(thought);
-
-
-			      }
-
-				  if(index === array.length-1)
-				  {
-					  console.log('GET /thoughts');
-					  console.log(array);
-					  res.status(200).jsonp(array);
-				  }
-			    });
-
-
-		});
-
+		res.status(200).jsonp(thoughts);
 	});
+
+
 };
 
 //GET - Return a TVShow with specified ID
@@ -90,7 +54,7 @@ exports.addThought = function(req, res) {
 	var thought = new thoughtModel({
 		time: req.body.time,
 	    content:   req.body.content,
-	    authorname:   req.body.authorname
+	    user_id:   req.body.user_id
 	});
 
 	thought.save(function(err, thought) {

@@ -1,89 +1,70 @@
-var listThoughts;
 
 
-var urlapi = "http://localhost:3000/api";
+angular.module('thoughtsApp', [])
+  .controller('ThoughtsController', function() {
+    var thoughtsList = this;
+    thoughtsList.thoughts = [
+      {
+          time: '9h',
+          content:'primer thought',
+          username: 'user1',
+          fav: '',
+          avatar: 'bat'
+      },
+      {
+          time: '10h',
+          content:'quart thought',
+          username: 'user4',
+          fav: '',
+          avatar: 'tiger'
+      },
+      {
+          time: '10h',
+          content:'segon thought, aquí, provant',
+          username: 'user2',
+          fav: '',
+          avatar: 'toucan'
+      },
+      {
+          time: '10h',
+          content:'tercer thought, responent',
+          username: 'user1',
+          fav: '',
+          avatar: 'bat'
+      },
+      {
+          time: '10h',
+          content:'hola com va',
+          username: 'user3',
+          fav: '',
+          avatar: 'macaw'
+      },
+      {
+          time: '10h',
+          content:'quart thought',
+          username: 'user5',
+          fav: '',
+          avatar: 'giraffe'
+      }];
 
-function OnLoadIndex(){
-    listThoughts=getAllThoughts();
-}
-function getAllThoughts(){
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: urlapi + "/thoughts",
-        success: function(data){
-            listThoughts=data;
+    thoughtsList.addTodo = function() {
+      todoList.todos.push({text:todoList.todoText, done:false});
+      todoList.todoText = '';
+    };
 
-            document.getElementById('listThoughtsHtml').innerHTML=generateHtmlListThoughts();
-        }
-    });
-}
-function generateHtmlListThoughts(){
-    var html="";
-    html+="<div class='list'>";
-    html+="</div>";
-    html+="<ul class='list-group'>";
-    for(var i=0; i<listThoughts.length; i++)
-    {
-        html+=" <li class='list-group-item'>";
-        html+="<img src='"+listThoughts[i].usericon+"' width='30px' />";
-        html+="<a href='/userpage.html?value="+listThoughts[i].authorname+"'>" + listThoughts[i].authorname + ":</a>";
-        html+="<br>";
-        html+= listThoughts[i].content;
-        html+="</li>";
-    }
+    thoughtsList.remaining = function() {
+      var count = 0;
+      angular.forEach(todoList.todos, function(todo) {
+        count += todo.done ? 0 : 1;
+      });
+      return count;
+    };
 
-    html+="</ul>";
-
-
-    return(html);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-##############################
-userpage.html
-##############################
-*/
-
-function OnLoadUserPage(){
-    var username=window.location.href.split("?value=")[1];
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: urlapi + "/users/byusername/" + username,
-        success: function(data){
-
-            document.getElementById('userpagehtml').innerHTML=generateHtmlUserPage(data[0]);
-        }
-    });
-}
-function generateHtmlUserPage(user){
-    var html="";
-    html+="<div class='well'>";
-    html+="<h3>" + user.username + "</h3>";
-    html+="description: " + user.description;
-
-    html+="<br>mail: " + user.mail;
-    html+="";
-    html+="";
-    html+="";
-    html+="</div>";
-    return(html);
-}
+    thoughtsList.archive = function() {
+      var oldTodos = todoList.todos;
+      todoList.todos = [];
+      angular.forEach(oldTodos, function(todo) {
+        if (!todo.done) todoList.todos.push(todo);
+      });
+    };
+  });
