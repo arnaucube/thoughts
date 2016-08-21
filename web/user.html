@@ -9,32 +9,32 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Thoughts - login</title>
+      <title>Thoughts</title>
 
       <!-- ANGULAR -->
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     </head>
 
-    <body ng-controller="ThoughtsController">
+    <body ng-controller="ThoughtsController as thoughtsList">
 
         <div ng-include="'menu.htm'"></div>
 
         <div class="container">
-            <div class="row">
-                <div class="input-field col s12">
-                  <input ng-model="username" id="username" type="text" class="validate">
-                  <label for="username">Username</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="input-field col s12">
-                  <input ng-model="password" id="password" type="password" class="validate">
-                  <label for="password">password</label>
-                </div>
-            </div>
 
-            <a href="index.html" class="waves-effect waves-light btn red lighten-2 ">Cancel</a>
-            <a ng-click="login()" class="waves-effect waves-light btn indigo lighten-2 right">Login</a>
+            <div>
+                <ul class="collection">
+                    <li class="collection-item avatar" ng-repeat="thought in thoughtsList.thoughts | orderBy: '-time'">
+                        <img ng-src="img/icons/animals/{{thought.avatar}}.png" class="circle">
+                        <a ng-href="user.html?={{thought.username}}" class="title">
+                            {{thought.username}}
+                        </a>
+                        <div class="chip">{{thought.time | date:'HH:mm'}}</div>
+                        <p>{{thought.content}}</p>
+                        <a href="#!" class="secondary-content"><i class="material-icons indigo-text text-lighten-2">grade</i></a>
+
+                    </li>
+                </ul>
+            </div>
 
         </div>
 

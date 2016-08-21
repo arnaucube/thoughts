@@ -9,7 +9,7 @@
 
       <!--Let browser know website is optimized for mobile-->
       <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Thoughts - login</title>
+      <title>Thoughts - signup</title>
 
       <!-- ANGULAR -->
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
@@ -29,12 +29,28 @@
             <div class="row">
                 <div class="input-field col s12">
                   <input ng-model="password" id="password" type="password" class="validate">
-                  <label for="password">password</label>
+                  <label for="password">Password</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                  <input ng-model="description" id="description" type="text" class="validate">
+                  <label for="description">Description</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s6">
+                  <input ng-model="mail" id="mail" type="email" class="validate">
+                  <label for="mail">Mail</label>
+                </div>
+                <div class="input-field col s6">
+                  <input ng-model="avatar" id="avatar" type="email" class="validate">
+                  <label for="avatar">Avatar</label>
                 </div>
             </div>
 
             <a href="index.html" class="waves-effect waves-light btn red lighten-2 ">Cancel</a>
-            <a ng-click="login()" class="waves-effect waves-light btn indigo lighten-2 right">Login</a>
+            <a ng-click="signin()" class="waves-effect waves-light btn indigo lighten-2 right">Login</a>
 
         </div>
 

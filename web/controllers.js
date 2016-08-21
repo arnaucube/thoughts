@@ -1,10 +1,12 @@
 
+
 var url="http://localhost:3000/api/";
 angular.module('thoughtsApp', [])
   .controller('ThoughtsController', function(
         $scope,
         $http
     ) {
+
     var thoughtsList = this;
     if(window.sessionStorage.getItem('thoughtsToken'))
     {
@@ -13,6 +15,11 @@ angular.module('thoughtsApp', [])
         $scope.userLogged=false;
     }
 
+    $scope.availableAvatars=[
+        "img/icons/animals/cat.png",
+        "img/icons/animals/crab.png",
+        "img/icons/animals/toucan.png"
+    ];
     $http({
         method : "GET",
         url : url + "thoughts"
@@ -22,9 +29,34 @@ angular.module('thoughtsApp', [])
         $scope.myWelcome = response.statusText;
     });
 
+
     thoughtsList.addTodo = function() {
       todoList.todos.push({text:todoList.todoText, done:false});
       todoList.todoText = '';
+    };
+
+    $scope.signin = function(){
+        ActivateLoadBar();
+
+        var obj = {
+            username: $scope.username,
+            password: $scope.password,
+            description: $scope.description,
+            mail: $scope.mail,
+            avatar: $scope.avatar
+        };
+        $http({
+            method : "POST",
+            url : url + "users",
+            data: obj
+        }).then(function mySucces(response) {
+                toastr.success("Signed in, now login");
+                setTimeout(function(){
+                    window.location="login.html";
+                }, 1000);
+        }, function myError(response) {
+            toastr.error(response.statusText);
+        });
     };
 
     $scope.login = function(){
