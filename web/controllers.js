@@ -1,6 +1,6 @@
 
 
-var url="http://localhost:3000/api/";
+var url="https://thoughtsserver.herokuapp.com/api/";
 angular.module('thoughtsApp', [])
   .controller('ThoughtsController', function(
         $scope,
