@@ -8,18 +8,14 @@ angular.module('thoughtsApp', [])
     ) {
 
     var thoughtsList = this;
+
     if(window.sessionStorage.getItem('thoughtsToken'))
     {
         $scope.userLogged=true;
     }else{
         $scope.userLogged=false;
-    }
 
-    $scope.availableAvatars=[
-        "img/icons/animals/cat.png",
-        "img/icons/animals/crab.png",
-        "img/icons/animals/toucan.png"
-    ];
+    }
     $http({
         method : "GET",
         url : url + "thoughts"
@@ -28,6 +24,24 @@ angular.module('thoughtsApp', [])
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });
+
+    $scope.availableAvatars=[
+        "img/icons/animals/cat.png",
+        "img/icons/animals/crab.png",
+        "img/icons/animals/toucan.png"
+    ];
+
+    $scope.getAllThoughts = function(){
+        $http({
+            method : "GET",
+            url : url + "thoughts"
+        }).then(function mySucces(response) {
+            thoughtsList.thoughts = response.data;
+        }, function myError(response) {
+            $scope.myWelcome = response.statusText;
+        });
+    };
+
 
 
     thoughtsList.addTodo = function() {
@@ -45,6 +59,7 @@ angular.module('thoughtsApp', [])
             mail: $scope.mail,
             avatar: $scope.avatar
         };
+        console.log(obj);
         $http({
             method : "POST",
             url : url + "users",

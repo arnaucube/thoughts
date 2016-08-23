@@ -53,7 +53,7 @@ exports.findUserByUsername = function(req, res) {
 //POST - Insert a new TVShow in the DB
 exports.addUser = function(req, res) {
 	console.log('POST new user, name: ' + req.body.username);
-	console.log(req.body);
+	//console.log(req.body);
 
 	var user = new userModel({
 		username: req.body.username,
